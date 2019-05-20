@@ -239,7 +239,7 @@ class ReadTask{
             merge.start();
             gettimeofday(&tv[1], NULL);
             cout<<"merge time"<<((long long)tv[1].tv_sec - tv[0].tv_sec) * 1000000 + tv[1].tv_usec - tv[0].tv_usec<<endl;
-
+            fclose(fp);
         }
 
         void startWrite(StatMap *&curMap){
