@@ -2,7 +2,7 @@
 #include<fstream>
 #include<time.h>
 using namespace std;
-const int UrlCount = (1024*8)*1024/8;//产生大约2G
+const int UrlCount = (1024*8*1024)*2;//产生大约2G
 const int UrlLen = 128 -  7;//128 - http://
 string generate_url(int m, int n){
     string res = "http://";
@@ -19,7 +19,7 @@ string generate_url(int m, int n){
 int main()
 {
     srand((unsigned)time(NULL));
-    ofstream out_file("url100M.bat");
+    ofstream out_file("url.bat");
     for(int i = 0; i < UrlCount; ++i){
          int num = rand() % UrlLen;
          int char_num = rand() % UrlLen;

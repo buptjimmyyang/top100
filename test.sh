@@ -1,4 +1,4 @@
-cat url100M.bat | sort | uniq -c | sort -k1,1nr | head -100|awk -F ' ' '{print $1 "\t" $2}'|sort > diff1
+cat url.bat | sort | uniq -c | sort -k1,1nr | head -100|awk -F ' ' '{print $1 "\t" $2}'|sort > diff1
 cat top100.bat|awk -F '\t' '{print $2 "\t" $1}'|sort > diff2
 awk -F '\t' 'BEGIN{
     line[1] = 0

@@ -258,7 +258,7 @@ int main(){
     struct timeval tv[2];
     gettimeofday(&tv[0], NULL);
     ReadTask task;
-    task.readFile("url100M.bat");
+    task.readFile("url.bat");
     gettimeofday(&tv[1], NULL);
     cout<<"total time"<<((long long)tv[1].tv_sec - tv[0].tv_sec) * 1000000 + tv[1].tv_usec - tv[0].tv_usec<<endl;
 
