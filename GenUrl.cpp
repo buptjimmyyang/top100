@@ -2,7 +2,7 @@
 #include<fstream>
 #include<time.h>
 using namespace std;
-const int UrlCount = (1024*8*1024)/2;//产生大约2G
+const int UrlCount = (1024*8*1024);//产生大约2G
 const int UrlLen = 128 -  7;//128 - http://
 string generate_url(int m, int n){
     string res = "http://";

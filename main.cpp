@@ -18,7 +18,7 @@ using namespace std;
  * 写任务全部结束后进行多路归并，合并url相同的元素
  * 3. 将合并完成的url通过大小为100的小根堆统计top100
  * **/
-const int ReadLine = (8*1024)*512/10;//每次读取不超过500M 限制每行最多128个字符串
+const int ReadLine = (8*1024)*512;//每次读取不超过500M 限制每行最多128个字符串
 int finishWriteTask = 0; //已经完成的写任务数目
 int initWriteTask = 0;  //写任务数目
 const int TOP100 = 100;
@@ -149,7 +149,7 @@ public:
         UrlElem lastElem;
         UrlElem curElem;
         //因为各个part已经按照url顺序存储，merge阶段首先将各个part的首个url放入优先队列中，取最小url并在该
-        //队列中再取下一个元素放入优先队列，若下次url与上次相同则合并url数目，否则上次的url计数统计结束 放入top100
+        //part中再取下一个元素放入优先队列，若下次url与上次相同则合并url数目，否则上次的url计数统计结束 放入top100
         //堆中，进行计数
         while(mergeFinishCount < initWriteTask){
             curElem = mergePart.top();
