@@ -8,7 +8,7 @@
 #include<functional>
 #include<vector>
 #include<queue>
-#include<sys/time.h>
+#include<chrono>
 using namespace std;
 /**
  * 总体思路：
@@ -18,7 +18,7 @@ using namespace std;
  * 写任务全部结束后进行多路归并，合并url相同的元素
  * 3. 将合并完成的url通过大小为100的小根堆统计top100
  * **/
-const int ReadLine = (8*1024)*512;//每次读取不超过500M 限制每行最多128个字符串
+const int ReadLine = (8*1024)*512/10;//每次读取不超过500M 限制每行最多128个字符串
 int finishWriteTask = 0; //已经完成的写任务数目
 int initWriteTask = 0;  //写任务数目
 const int TOP100 = 100;
@@ -59,6 +59,7 @@ class WriteTask{
     thread *task;
 public:
     WriteTask(int fileId, StatMap *curMap):fileId(fileId),curMap(curMap){
+        curMap->isValid = false;
         task =  new thread(&WriteTask::writeFile, this);
     }
 
@@ -70,7 +71,6 @@ public:
             outPut<<s->first<<'\t'<<s->second<<endl;
         }
 
-        outPut.close();
         curMap->urlCount.clear();
         curMap->notifyLock();
 
@@ -148,7 +148,9 @@ public:
     void start(){
         UrlElem lastElem;
         UrlElem curElem;
-
+        //因为各个part已经按照url顺序存储，merge阶段首先将各个part的首个url放入优先队列中，取最小url并在该
+        //队列中再取下一个元素放入优先队列，若下次url与上次相同则合并url数目，否则上次的url计数统计结束 放入top100
+        //堆中，进行计数
         while(mergeFinishCount < initWriteTask){
             curElem = mergePart.top();
             mergePart.pop();
@@ -211,17 +213,18 @@ class ReadTask{
         }
         
         void readFile(const string &fileName){
-            struct timeval pre[2];
-            gettimeofday(&pre[0], NULL);
-            FILE *fp=fopen(fileName.c_str(), "r");
-            char url[136]; //足够容纳最大长度的一行！
+            auto start_time = chrono::system_clock::now();
+            ifstream inPut(fileName);
             StatMap *curMap = &statMap[curStat];
-            while(fgets(url, sizeof(url), fp)){
-                curMap->urlCount[string(url)] += 1;
+            string url;
+            while(!inPut.eof()){
+                inPut>>url;
+                curMap->urlCount[url] += 1;
                 ++finishReadLine;
                 if(finishReadLine >= ReadLine){
                     startWrite(curMap);
                 }
+                url.clear();
             }
             startWrite(curMap);
             //判断是否写完文件
@@ -229,17 +232,17 @@ class ReadTask{
             if(finishWriteTask < initWriteTask){
                   writeFinishCond.wait(lck);
             }
-            gettimeofday(&pre[1], NULL);
-            cout<<"read and write time"<<((long long)pre[1].tv_sec - pre[0].tv_sec) * 1000000 + pre[1].tv_usec - pre[0].tv_usec<<endl;
+            auto end_time = chrono::system_clock::now();
+            auto duration = chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+            cout<<"read and write time"<<duration.count()<<endl;
 
             //开始合并
-            struct timeval tv[2];
-            gettimeofday(&tv[0], NULL);
+            start_time = chrono::system_clock::now();
             MergeTask merge;
             merge.start();
-            gettimeofday(&tv[1], NULL);
-            cout<<"merge time"<<((long long)tv[1].tv_sec - tv[0].tv_sec) * 1000000 + tv[1].tv_usec - tv[0].tv_usec<<endl;
-            fclose(fp);
+            end_time = chrono::system_clock::now();
+            duration = chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+            cout<<"merge time"<<duration.count()<<endl;
         }
 
         void startWrite(StatMap *&curMap){
@@ -255,11 +258,12 @@ class ReadTask{
 
 };
 int main(){
-    struct timeval tv[2];
-    gettimeofday(&tv[0], NULL);
+    auto start_time = chrono::system_clock::now();
+
     ReadTask task;
     task.readFile("url.bat");
-    gettimeofday(&tv[1], NULL);
-    cout<<"total time"<<((long long)tv[1].tv_sec - tv[0].tv_sec) * 1000000 + tv[1].tv_usec - tv[0].tv_usec<<endl;
 
+    auto end_time = chrono::system_clock::now();
+    auto duration = chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+    cout<<"total time"<<duration.count()<<endl;
 }
