@@ -20,3 +20,9 @@ url top100
  2. GenUrl.cpp为产生测试url程序，程序限制最长url为128字符，默认产生数据量大小为2G
  3. main.cpp为主程序设置读线程每次最多读取500M数据量
  4. run.sh为启动主程序脚本 gen.sh为产生数据脚本 
+
+ * 切分和统计排序示意图如下
+ ![划分和排序统计](http://note.youdao.com/noteshare?id=02c145b807e6eb212157191e353e9803)
+
+ * 合并(merge)示意图
+ ![merge示意图](http://note.youdao.com/noteshare?id=7c59a0ce5773981be1489e6b28abade2)
