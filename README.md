@@ -1,4 +1,4 @@
-# top100
+## top100
 url top100
 100GB url 文件，使用 1GB 内存计算出出现次数 top100 的 url 和出现的次数
 1. 注意代码可读性，添加必要的注释（英文）
@@ -21,8 +21,8 @@ url top100
  3. main.cpp为主程序设置读线程每次最多读取500M数据量
  4. run.sh为启动主程序脚本 gen.sh为产生数据脚本 
 
- * 切分和统计排序示意图如下
- ![划分和排序统计](http://note.youdao.com/noteshare?id=02c145b807e6eb212157191e353e9803)
+ # 切分和统计排序示意图如下
+ ![划分和排序统计](https://note.youdao.com/yws/public/resource/02c145b807e6eb212157191e353e9803/xmlnote/2E3F8C36ADB44C93AEA4F8CB4D207EFB/2036)
 
- * 合并(merge)示意图
- ![merge示意图](http://note.youdao.com/noteshare?id=7c59a0ce5773981be1489e6b28abade2)
+ # 合并(merge)示意图
+ ![merge示意图](https://note.youdao.com/yws/public/resource/7c59a0ce5773981be1489e6b28abade2/xmlnote/8741D7D337A94B8F876182BB87663E07/2042)
