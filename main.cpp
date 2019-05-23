@@ -213,7 +213,7 @@ class ReadTask{
         }
         
         void readFile(const string &fileName){
-            auto start_time = chrono::system_clock::now();
+            auto startTime = chrono::system_clock::now();
             ifstream inPut(fileName);
             StatMap *curMap = &statMap[curStat];
             string url;
@@ -232,16 +232,16 @@ class ReadTask{
             if(finishWriteTask < initWriteTask){
                   writeFinishCond.wait(lck);
             }
-            auto end_time = chrono::system_clock::now();
-            auto duration = chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+            auto endTime = chrono::system_clock::now();
+            auto duration = chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
             cout<<"read and write time"<<duration.count()<<endl;
 
             //开始合并
-            start_time = chrono::system_clock::now();
+            startTime = chrono::system_clock::now();
             MergeTask merge;
             merge.start();
-            end_time = chrono::system_clock::now();
-            duration = chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+            endTime = chrono::system_clock::now();
+            duration = chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
             cout<<"merge time"<<duration.count()<<endl;
         }
 
@@ -258,12 +258,12 @@ class ReadTask{
 
 };
 int main(){
-    auto start_time = chrono::system_clock::now();
+    auto startTime = chrono::system_clock::now();
 
     ReadTask task;
     task.readFile("url.bat");
 
-    auto end_time = chrono::system_clock::now();
-    auto duration = chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+    auto endTime = chrono::system_clock::now();
+    auto duration = chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
     cout<<"total time"<<duration.count()<<endl;
 }
