@@ -25,4 +25,4 @@ url top100
  ![划分和排序统计](https://note.youdao.com/yws/public/resource/02c145b807e6eb212157191e353e9803/xmlnote/2E3F8C36ADB44C93AEA4F8CB4D207EFB/2036)
 
  ## 合并(merge)示意图
- ![merge示意图](https://note.youdao.com/yws/public/resource/7c59a0ce5773981be1489e6b28abade2/xmlnote/81332ADE9C66404E88FC7EEBECBCC070/2051)
+ ![merge示意图](https://note.youdao.com/yws/public/resource/7c59a0ce5773981be1489e6b28abade2/xmlnote/2FCCCDA5D5CB40438DB31B794C75038E/2054)
